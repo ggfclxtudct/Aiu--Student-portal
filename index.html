@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIU Student Portal</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* LOGIN */
+.login-box {
+    width: 100%;
+    max-width: 380px;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.login-box h2 {
+    color: #0b3d91;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.login-box p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #0b3d91;
+    box-shadow: 0 0 5px rgba(11, 61, 145, 0.2);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #0b3d91, #164ba0);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(11, 61, 145, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+#error {
+    color: #e74c3c;
+    margin-top: 15px;
+    font-size: 14px;
+    display: none;
+}
+
+/* PORTAL */
+.container {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    background: #f5f7fa;
+}
+
+.container.active {
+    display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(135deg, #0b3d91, #164ba0);
+    color: white;
+    padding: 30px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.sidebar hr {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    margin: 15px 0;
+}
+
+.user-info {
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.user-info p {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.user-info b {
+    display: block;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 5px;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 30px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.logout-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 40px;
+}
+
+.main h2 {
+    color: #0b3d91;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 16px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+    background: linear-gradient(135deg, #e6f0ff, #f0e6ff);
+    color: #0b3d91;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+td {
+    font-size: 14px;
+    color: #333;
+}
+
+tr:hover {
+    background: #f9f9f9;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+    }
+    
+    .main {
+        padding: 20px;
+    }
+    
+    .login-box {
+        margin: 20px;
+        padding: 30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login-box" id="loginBox">
+    <h2>🎓 AIU Student Portal</h2>
+    <p>Welcome to your student portal</p>
+
+    <input type="text" id="id" placeholder="Student ID" autocomplete="off">
+    <input type="password" id="pass" placeholder="Password" autocomplete="off">
+
+    <button onclick="login()">Login</button>
+
+    <p id="error"></p>
+</div>
+
+<!-- PORTAL -->
+<div class="container" id="portal">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>📚 AIU Portal</h2>
+        <hr>
+        <div class="user-info">
+            <b>Student Name:</b>
+            <p id="userName">Fouad Magdy Sary</p>
+        </div>
+        <div class="user-info">
+            <b>Student ID:</b>
+            <p id="studentID">25100245</p>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <h2>📊 My Courses & Grades</h2>
+
+        <div class="card">
+            <table>
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Structured Programming</td>
+                    <td><strong style="color: #27ae60;">B</strong></td>
+                    <td>✅ Passed</td>
+                </tr>
+
+                <tr>
+                    <td>Information Systems & Technology</td>
+                    <td><strong style="color: #27ae60;">B</strong></td>
+                    <td>✅ Passed</td>
+                </tr>
+
+                <tr>
+                    <td>Entrepreneurship</td>
+                    <td><strong style="color: #f39c12;">C</strong></td>
+                    <td>✅ Passed</td>
+                </tr>
+
+                <tr>
+                    <td>Physics</td>
+                    <td><strong style="color: #f39c12;">C</strong></td>
+                    <td>✅ Passed</td>
+                </tr>
+
+                <tr>
+                    <td>Pre-Calculus</td>
+                    <td><strong style="color: #e74c3c;">D</strong></td>
+                    <td>⚠️ Needs Improvement</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function login() {
+    let id = document.getElementById("id").value.trim();
+    let pass = document.getElementById("pass").value;
+    let errorMsg = document.getElementById("error");
+
+    // Clear previous error
+    errorMsg.style.display = "none";
+    errorMsg.innerText = "";
+
+    // Validate inputs
+    if (!id || !pass) {
+        errorMsg.innerText = "❌ Please enter both ID and Password";
+        errorMsg.style.display = "block";
+        return;
+    }
+
+    // Check credentials
+    if (id === "25100245" && pass === "Maai12345") {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("portal").classList.add("active");
+        document.getElementById("studentID").innerText = id;
+    } else {
+        errorMsg.innerText = "❌ Invalid ID or Password";
+        errorMsg.style.display = "block";
+        document.getElementById("pass").value = "";
+    }
+}
+
+function logout() {
+    document.getElementById("loginBox").style.display = "block";
+    document.getElementById("portal").classList.remove("active");
+    document.getElementById("id").value = "";
+    document.getElementById("pass").value = "";
+    document.getElementById("error").style.display = "none";
+}
+
+// Allow Enter key to login
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("pass").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            login();
+        }
+    });
+    document.getElementById("id").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            document.getElementById("pass").focus();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
